@@ -68,8 +68,15 @@ app.use((req, res, next) => {
 // Parse JSON requests
 app.use(express.json());
 
-// Health check
-app.get("/", (req, res) => res.send("API is running..."));
+// ✅ Health check root
+app.get("/", (req, res) => {
+  res.send("API is running...");
+});
+
+// ✅ IMPORTANT: /api FIX (Cannot GET /api solution)
+app.get("/api", (req, res) => {
+  res.json({ message: "API working successfully 🚀" });
+});
 
 // API Routes
 app.use("/api/users", userRoutes);
