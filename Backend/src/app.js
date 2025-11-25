@@ -44,20 +44,31 @@ connectDB();
 
 const app = express();
 
-// CORS Configuration
+// ✅ CORS Configuration
 app.use(cors({
   origin: [
-    "http://localhost:3000", // local frontend
-    "https://task-management-system-azure-seven.vercel.app" // deployed Vercel frontend
+    "http://localhost:3000",
+    "https://task-management-system-azure-seven.vercel.app"
   ],
-  methods: ["GET","POST","PUT","DELETE","OPTIONS"], // OPTIONS include
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
 }));
+
+// ✅ PREFLIGHT FIX (IMPORTANT)
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Origin", "https://task-management-system-azure-seven.vercel.app");
+    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    return res.status(200).end();
+  }
+  next();
+});
 
 // Parse JSON requests
 app.use(express.json());
 
-// Health check route
+// Health check
 app.get("/", (req, res) => res.send("API is running..."));
 
 // API Routes

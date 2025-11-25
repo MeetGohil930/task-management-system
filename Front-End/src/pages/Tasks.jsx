@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTrash, FaEdit, FaPlus } from "react-icons/fa";
+import API from "../api"; // instead of hardcoded axios URLs
 
 export default function Tasks() {
   const [tasks, setTasks] = useState([]);
@@ -24,9 +25,16 @@ export default function Tasks() {
   const [projects, setProjects] = useState([]);
   const [teams, setTeams] = useState([]);
 
-  const API_URL = "http://localhost:5000/api/tasks";
-  const PROJECTS_API = "http://localhost:5000/api/projects";
-  const TEAMS_API = "http://localhost:5000/api/teams";
+  // const API_URL = "http://localhost:5000/api/tasks";
+  // const PROJECTS_API = "http://localhost:5000/api/projects";
+  // const TEAMS_API = "http://localhost:5000/api/teams";
+
+  // LIVE API URLs
+  const API_URL = "https://task-management-system-wpik.onrender.com/api/tasks";
+  const PROJECTS_API = "https://task-management-system-wpik.onrender.com/api/projects";
+  const TEAMS_API = "https://task-management-system-wpik.onrender.com/api/teams";
+
+
 
   // Fetch tasks, projects, and teams
   const fetchData = async () => {
