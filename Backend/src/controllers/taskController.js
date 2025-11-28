@@ -63,3 +63,36 @@ export const getTaskCount = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+
+// ................................................ chartApi...........................Task..........................
+
+
+export const getMonthlyTaskStats = async (req, res) => {
+  try {
+    const stats = await Task.aggregate([
+      {
+        $group: {
+          _id: { $month: "$createdAt" },
+          tasks: { $sum: 1 }
+        }
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    const months = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+
+    const formatted = stats.map(item => ({
+      name: months[item._id - 1],
+      tasks: item.tasks
+    }));
+
+    res.status(200).json(formatted);
+  } catch (error) {
+    console.error("Chart Stats Error:", error);
+    res.status(500).json({ message: "Failed to load chart data" });
+  }
+};

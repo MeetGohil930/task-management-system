@@ -18,6 +18,7 @@ import {
     updateTask,
     deleteTask,
     getTaskCount,
+    getMonthlyTaskStats,
 } from "../controllers/taskController.js";
 
 const router = express.Router();
@@ -39,5 +40,6 @@ router.get("/:id", async (req, res, next) => {
 
 router.put("/:id", updateTask);
 router.delete("/:id", deleteTask);
+router.get("/stats/monthly", getMonthlyTaskStats);
 
 export default router;
